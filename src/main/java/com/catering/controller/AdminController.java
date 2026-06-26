@@ -15,6 +15,7 @@ public class AdminController {
 
     private final MenuService menuService;
     private final OrderService orderService;
+    private final String name = "admin";
      // Hardcoded admin username
 
     public AdminController(MenuService menuService, OrderService orderService) {

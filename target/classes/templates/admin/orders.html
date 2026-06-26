@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Orders | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="admin-shell">
+  <div th:replace="~{fragments/admin-sidebar :: sidebar('orders')}"></div>
+
+  <div class="admin-content">
+    <h2>All Orders</h2>
+
+    <table>
+      <thead><tr><th>Order #</th><th>Customer</th><th>Order Date</th><th>Event Date</th><th>Total</th><th>Status</th><th>Payment</th><th></th></tr></thead>
+      <tbody>
+      <tr th:each="order : ${orders}">
+        <td th:text="'#' + ${order.id}">#1</td>
+        <td th:text="${order.user.fullName}">Customer</td>
+        <td th:text="${#temporals.format(order.orderDate, 'dd MMM yyyy')}">Date</td>
+        <td th:text="${#temporals.format(order.eventDate, 'dd MMM yyyy, hh:mm a')}">Date</td>
+        <td th:text="'Rs. ' + ${order.totalAmount}">Rs. 0</td>
+        <td><span class="status" th:class="'status status-' + ${order.status}" th:text="${order.status}">PENDING</span></td>
+        <td><span class="payment-status" th:class="'payment-status payment-status-' + ${order.paymentStatus}" th:text="${order.paymentStatus}">PENDING</span></td>
+        <td><a th:href="@{/admin/orders/{id}(id=${order.id})}" class="btn btn-secondary btn-sm">Manage</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="admin-shell">
+  <div th:replace="~{fragments/admin-sidebar :: sidebar('dashboard')}"></div>
+
+  <div class="admin-content">
+    <h2>Dashboard</h2>
+    <p style="color:var(--gray); margin-bottom:30px;">Overview of your catering business</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num" th:text="${orderCount}">0</div>
+        <div class="label">Total Orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" th:text="${itemCount}">0</div>
+        <div class="label">Menu Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" th:text="${categoryCount}">0</div>
+        <div class="label">Categories</div>
+      </div>
+    </div>
+
+    <h3>Recent Orders</h3>
+    <table>
+      <thead><tr><th>Order #</th><th>Customer</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+      <tr th:each="order : ${recentOrders}">
+        <td th:text="'#' + ${order.id}">#1</td>
+        <td th:text="${order.user.fullName}">Customer</td>
+        <td th:text="'Rs. ' + ${order.totalAmount}">Rs. 0</td>
+        <td><span class="status" th:class="'status status-' + ${order.status}" th:text="${order.status}">PENDING</span></td>
+        <td><a th:href="@{/admin/orders/{id}(id=${order.id})}" class="btn btn-secondary btn-sm">View</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

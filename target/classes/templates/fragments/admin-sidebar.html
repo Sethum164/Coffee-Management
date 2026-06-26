@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<aside class="admin-sidebar" th:fragment="sidebar(active)">
+  <a href="/admin" th:classappend="${active == 'dashboard'} ? 'active' : ''">📊 Dashboard</a>
+  <a href="/admin/items" th:classappend="${active == 'items'} ? 'active' : ''">🍴 Menu Items</a>
+  <a href="/admin/categories" th:classappend="${active == 'categories'} ? 'active' : ''">🗂 Categories</a>
+  <a href="/admin/orders" th:classappend="${active == 'orders'} ? 'active' : ''">📦 Orders</a>
+  <a href="/">🏠 Back to Site</a>
+</aside>
+</body>
+</html>

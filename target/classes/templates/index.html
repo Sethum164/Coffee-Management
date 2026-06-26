@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>CateringPro | Premium Catering Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="hero">
+  <div class="container">
+    <h1>Unforgettable Food, For Unforgettable Events</h1>
+    <p>From intimate gatherings to grand celebrations — order beautifully crafted catering menus, delivered fresh and on time.</p>
+    <div class="hero-actions">
+      <a href="/menu" class="btn btn-primary pulse">Browse Menu</a>
+      <a href="/contact" class="btn btn-outline">Plan an Event</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title reveal">Featured Dishes</h2>
+    <p class="section-subtitle reveal">Our most loved items, hand-picked for your next event</p>
+    <div class="grid">
+      <div class="card reveal" th:each="item : ${featuredItems}">
+        <img class="card-img" th:src="${item.imageUrl}" alt="dish image">
+        <div class="card-body">
+          <div>
+            <span class="badge badge-feature" th:if="${item.featured}">Featured</span>
+            <span class="badge" th:if="${item.vegetarian}">Veg</span>
+          </div>
+          <h3 th:text="${item.name}">Dish Name</h3>
+          <p th:text="${item.description}">Description</p>
+          <div class="card-footer">
+            <span class="price" th:text="'Rs. ' + ${item.price}">Rs. 0</span>
+            <a href="/menu" class="btn btn-primary btn-sm">View</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <h2 class="section-title reveal">Explore by Category</h2>
+    <p class="section-subtitle reveal">Find exactly what your event needs</p>
+    <div class="grid">
+      <a th:each="cat : ${categories}" th:href="@{/menu(categoryId=${cat.id})}" class="card reveal" style="text-decoration:none; padding:28px 20px; text-align:center;">
+        <h3 th:text="${cat.name}" style="color:var(--primary-dark);">Category</h3>
+        <p th:text="${cat.description}" style="color:var(--gray);">Description</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

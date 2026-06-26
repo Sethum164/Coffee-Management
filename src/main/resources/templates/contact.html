@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="form-card">
+    <h2>Get In Touch</h2>
+    <p class="sub">Have a question about a big event? We'd love to help.</p>
+    <div class="form-group">
+      <label>Phone</label>
+      <p>+94 77 123 4567</p>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <p>hello@cateringpro.com</p>
+    </div>
+    <div class="form-group">
+      <label>Address</label>
+      <p>123 Galle Road, Maharagama, Sri Lanka</p>
+    </div>
+    <a href="/menu" class="btn btn-primary btn-block">Browse Our Menu</a>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

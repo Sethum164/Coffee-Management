@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmed | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="form-card" style="text-align:center; max-width:560px;">
+    <div style="font-size:3rem; margin-bottom:10px;">✅</div>
+    <h2>Order Placed Successfully!</h2>
+    <p class="sub">Thank you! Your order #<span th:text="${order.id}"></span> has been received.</p>
+    <div class="summary-box" style="text-align:left; margin-top:24px;">
+      <div class="flex-between"><span>Status</span><span class="status" th:class="'status status-' + ${order.status}" th:text="${order.status}"></span></div>
+      <div class="divider"></div>
+      <div class="flex-between"><span>Payment Method</span><span th:text="${order.paymentMethod}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Payment Status</span><span class="payment-status" th:class="'payment-status payment-status-' + ${order.paymentStatus}" th:text="${order.paymentStatus}"></span></div>
+      <div class="divider"></div>
+      <div class="flex-between"><span>Event Date</span><span th:text="${#temporals.format(order.eventDate, 'dd MMM yyyy, hh:mm a')}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Total Amount</span><span class="price" th:text="'Rs. ' + ${order.totalAmount}"></span></div>
+    </div>
+    <a href="/orders" class="btn btn-primary" style="margin-top:24px;">View My Orders</a>
+    <a href="/menu" class="btn btn-outline" style="margin-top:10px; color:var(--dark); border-color:var(--border);">Back to Menu</a>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

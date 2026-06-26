@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Menu Items | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="admin-shell">
+  <div th:replace="~{fragments/admin-sidebar :: sidebar('items')}"></div>
+
+  <div class="admin-content">
+    <div class="flex-between" style="margin-bottom:24px;">
+      <h2 style="margin:0;">Menu Items</h2>
+      <a href="/admin/items/new" class="btn btn-primary">+ Add Item</a>
+    </div>
+
+    <table>
+      <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Available</th><th>Featured</th><th></th></tr></thead>
+      <tbody>
+      <tr th:each="item : ${items}">
+        <td th:text="${item.name}">Name</td>
+        <td th:text="${item.category != null ? item.category.name : '-'}">Category</td>
+        <td th:text="'Rs. ' + ${item.price}">Rs. 0</td>
+        <td th:text="${item.available} ? 'Yes' : 'No'">Yes</td>
+        <td th:text="${item.featured} ? 'Yes' : 'No'">No</td>
+        <td>
+          <a th:href="@{/admin/items/{id}/edit(id=${item.id})}" class="btn btn-secondary btn-sm">Edit</a>
+          <a th:href="@{/admin/items/{id}/delete(id=${item.id})}" class="btn btn-danger btn-sm"
+             onclick="return confirm('Delete this item?');">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

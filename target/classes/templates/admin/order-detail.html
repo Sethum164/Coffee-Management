@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Detail | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="admin-shell">
+  <div th:replace="~{fragments/admin-sidebar :: sidebar('orders')}"></div>
+
+  <div class="admin-content">
+    <div class="flex-between">
+      <h2 style="margin:0;">Order #<span th:text="${order.id}"></span></h2>
+      <span class="status" th:class="'status status-' + ${order.status}" th:text="${order.status}">PENDING</span>
+    </div>
+
+    <div class="summary-box" style="margin:20px 0; max-width:600px;">
+      <div class="flex-between"><span>Customer</span><span th:text="${order.user.fullName}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Email</span><span th:text="${order.user.email}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Event Date</span><span th:text="${#temporals.format(order.eventDate, 'dd MMM yyyy, hh:mm a')}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Delivery Address</span><span th:text="${order.deliveryAddress}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Contact Phone</span><span th:text="${order.contactPhone}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Payment Method</span><span th:text="${order.paymentMethod}"></span></div>
+      <div class="flex-between" style="margin-top:8px;">
+        <span>Payment Status</span>
+        <span class="payment-status" th:class="'payment-status payment-status-' + ${order.paymentStatus}" th:text="${order.paymentStatus}"></span>
+      </div>
+      <div class="flex-between" style="margin-top:8px;" th:if="${order.cardLast4 != null}"><span>Card</span><span th:text="'•••• ' + ${order.cardLast4}"></span></div>
+      <div class="flex-between" style="margin-top:8px;" th:if="${order.paymentReference != null}"><span>Payment Ref</span><span th:text="${order.paymentReference}"></span></div>
+      <div th:if="${order.specialInstructions != null and !order.specialInstructions.isEmpty()}" class="flex-between" style="margin-top:8px;">
+        <span>Instructions</span><span th:text="${order.specialInstructions}"></span>
+      </div>
+    </div>
+
+    <table style="max-width:600px;">
+      <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr></thead>
+      <tbody>
+      <tr th:each="oi : ${order.items}">
+        <td th:text="${oi.menuItem.name}">Item</td>
+        <td th:text="${oi.quantity}">1</td>
+        <td th:text="'Rs. ' + ${oi.unitPrice}">Rs. 0</td>
+        <td th:text="'Rs. ' + ${oi.subtotal}">Rs. 0</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="total-row" style="max-width:600px; margin-top:14px;">
+      <span>Total</span>
+      <span class="price" th:text="'Rs. ' + ${order.totalAmount}"></span>
+    </div>
+
+    <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:26px;">
+      <form th:action="@{/admin/orders/{id}/status(id=${order.id})}" method="post" style="max-width:400px; display:flex; gap:10px;">
+        <select name="status" class="form-control">
+          <option th:each="s : ${statuses}" th:value="${s}" th:selected="${s == order.status}" th:text="${s}"></option>
+        </select>
+        <button type="submit" class="btn btn-primary">Update Status</button>
+      </form>
+
+      <form th:action="@{/admin/orders/{id}/mark-paid(id=${order.id})}" method="post" th:if="${order.paymentStatus != T(com.catering.model.PaymentStatus).PAID}">
+        <button type="submit" class="btn btn-secondary">Mark Payment as Paid</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

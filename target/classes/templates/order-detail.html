@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Details | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="flex-between">
+      <h2>Order #<span th:text="${order.id}"></span></h2>
+      <span class="status" th:class="'status status-' + ${order.status}" th:text="${order.status}">PENDING</span>
+    </div>
+
+    <div class="summary-box" style="margin-bottom:24px;">
+      <div class="flex-between"><span>Order Date</span><span th:text="${#temporals.format(order.orderDate, 'dd MMM yyyy, hh:mm a')}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Event Date</span><span th:text="${#temporals.format(order.eventDate, 'dd MMM yyyy, hh:mm a')}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Delivery Address</span><span th:text="${order.deliveryAddress}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Contact Phone</span><span th:text="${order.contactPhone}"></span></div>
+      <div class="flex-between" style="margin-top:8px;"><span>Payment Method</span><span th:text="${order.paymentMethod}"></span></div>
+      <div class="flex-between" style="margin-top:8px;">
+        <span>Payment Status</span>
+        <span class="payment-status" th:class="'payment-status payment-status-' + ${order.paymentStatus}" th:text="${order.paymentStatus}"></span>
+      </div>
+      <div class="flex-between" style="margin-top:8px;" th:if="${order.cardLast4 != null}"><span>Card</span><span th:text="'•••• ' + ${order.cardLast4}"></span></div>
+      <div th:if="${order.specialInstructions != null and !order.specialInstructions.isEmpty()}" class="flex-between" style="margin-top:8px;">
+        <span>Instructions</span><span th:text="${order.specialInstructions}"></span>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Item</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr></thead>
+      <tbody>
+      <tr th:each="oi : ${order.items}">
+        <td th:text="${oi.menuItem.name}">Item</td>
+        <td th:text="${oi.quantity}">1</td>
+        <td th:text="'Rs. ' + ${oi.unitPrice}">Rs. 0</td>
+        <td th:text="'Rs. ' + ${oi.subtotal}">Rs. 0</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="total-row" style="margin-top:18px;">
+      <span>Total</span>
+      <span class="price" th:text="'Rs. ' + ${order.totalAmount}"></span>
+    </div>
+
+    <a href="/orders" class="btn btn-outline" style="color:var(--dark); border-color:var(--border); margin-top:20px;">Back to My Orders</a>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <h2 class="section-title">About CateringPro</h2>
+    <p style="color:var(--gray); line-height:1.8; font-size:1.02rem;">
+      CateringPro started with a simple idea — great food shouldn't be complicated to order.
+      We work with talented chefs to bring restaurant-quality catering to weddings, corporate events,
+      birthdays, and every celebration in between. From starters to desserts, every dish on our menu
+      is prepared fresh and delivered right on schedule.
+    </p>
+    <p style="color:var(--gray); line-height:1.8; font-size:1.02rem;">
+      Browse our menu, build your order, and let us take care of the rest. Whether it's an intimate
+      gathering of ten or a grand celebration of five hundred, our team is ready to make your event delicious.
+    </p>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

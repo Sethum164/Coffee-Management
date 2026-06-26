@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Your Cart</h2>
+
+    <div th:if="${cart.empty}" class="empty-state">
+      <h3>Your cart is empty</h3>
+      <p>Browse our menu and add some delicious items!</p>
+      <a href="/menu" class="btn btn-primary" style="margin-top:14px;">Go to Menu</a>
+    </div>
+
+    <div th:if="${!cart.empty}" style="max-width:780px; margin:0 auto;">
+      <table>
+        <thead>
+        <tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${cart.items}">
+          <td th:text="${entry.value.menuItem.name}">Item</td>
+          <td th:text="'Rs. ' + ${entry.value.menuItem.price}">Rs. 0</td>
+          <td>
+            <form th:action="@{/cart/update}" method="post" style="display:flex; gap:8px; align-items:center; margin:0;">
+              <input type="hidden" name="menuItemId" th:value="${entry.key}">
+              <input type="number" min="1" name="quantity" class="qty-input" th:value="${entry.value.quantity}">
+              <button type="submit" class="btn btn-secondary btn-sm">Update</button>
+            </form>
+          </td>
+          <td th:text="'Rs. ' + ${entry.value.subtotal}">Rs. 0</td>
+          <td>
+            <form th:action="@{/cart/remove}" method="post" style="margin:0;">
+              <input type="hidden" name="menuItemId" th:value="${entry.key}">
+              <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="summary-box" style="margin-top:24px;">
+        <div class="total-row">
+          <span>Total</span>
+          <span class="price" th:text="'Rs. ' + ${cart.total}">Rs. 0</span>
+        </div>
+        <div class="flex-between" style="margin-top:18px;">
+          <a href="/menu" class="btn btn-outline" style="color:var(--dark); border-color:var(--border);">Continue Shopping</a>
+          <a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

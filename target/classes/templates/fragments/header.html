@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="header">
+<div class="stars"></div>
+<nav class="navbar">
+  <div class="container">
+    <a class="brand" href="/">
+      <span class="brand-mark">🍽</span> CateringPro
+    </a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/menu">Menu</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/orders" sec:authorize="isAuthenticated()">My Orders</a>
+      <a href="/admin" sec:authorize="hasRole('ADMIN')">Admin Panel</a>
+      <a class="nav-cart" href="/cart" sec:authorize="isAuthenticated()">
+        🛒 Cart
+        <span class="cart-badge" th:if="${cartItemCount > 0}"
+              th:text="${cartItemCount}">0</span>
+      </a>
+      <a sec:authorize="!isAuthenticated()" class="btn btn-outline btn-sm" href="/login">Login</a>
+      <a sec:authorize="!isAuthenticated()" class="btn btn-primary btn-sm" href="/register">Sign Up</a>
+      <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="margin:0;">
+        <button type="submit" class="btn btn-outline btn-sm">Logout</button>
+      </form>
+      <button id="themeToggle" class="theme-toggle" type="button" title="Toggle day / night mode">
+        <span class="knob">🌙</span>
+      </button>
+    </div>
+  </div>
+</nav>
+</div>
+</body>
+</html>
+

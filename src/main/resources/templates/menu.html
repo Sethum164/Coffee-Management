@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu | CateringPro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Our Menu</h2>
+    <p class="section-subtitle">Pick your favorites and build the perfect spread for your event</p>
+
+    <div class="pill-row">
+      <a href="/menu" class="pill" th:classappend="${selectedCategory == null} ? ' active' : ''">All</a>
+      <a th:each="cat : ${categories}" th:href="@{/menu(categoryId=${cat.id})}" class="pill"
+         th:classappend="${selectedCategory != null and selectedCategory == cat.id} ? ' active' : ''"
+         th:text="${cat.name}">Category</a>
+    </div>
+
+    <div class="grid" th:if="${!items.isEmpty()}">
+      <div class="card reveal" th:each="item : ${items}">
+        <img class="card-img" th:src="${item.imageUrl}" alt="dish image">
+        <div class="card-body">
+          <div>
+            <span class="badge badge-feature" th:if="${item.featured}">Featured</span>
+            <span class="badge" th:if="${item.vegetarian}">Veg</span>
+          </div>
+          <h3 th:text="${item.name}">Dish Name</h3>
+          <p th:text="${item.description}">Description</p>
+          <div class="card-footer">
+            <span class="price" th:text="'Rs. ' + ${item.price}">Rs. 0</span>
+            <form th:action="@{/cart/add}" method="post" sec:authorize="isAuthenticated()" style="margin:0;">
+              <input type="hidden" name="menuItemId" th:value="${item.id}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="btn btn-primary btn-sm">Add to Cart</button>
+            </form>
+            <a href="/login" class="btn btn-primary btn-sm" sec:authorize="!isAuthenticated()">Login to Order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" th:if="${items.isEmpty()}">
+      <h3>No items in this category yet</h3>
+      <p>Please check back soon or browse another category.</p>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
